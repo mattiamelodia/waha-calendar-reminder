@@ -1,0 +1,12 @@
+# Clasp project identifiers (keep private / local)
+.clasp*.json
+
+# Dependencies
+node_modules/
+package-lock.json
+
+# Logs & temp
+*.log
+temp/
+.DS_Store
+*.swp

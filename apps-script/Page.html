@@ -1,0 +1,249 @@
+<head>
+  <base target="_top" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WhatsApp Reminder Dashboard</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&family=Roboto&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet"
+  />
+  <?!= include('Stylesheet'); ?>
+</head>
+
+<body>
+  <div class="container">
+    <div class="app-topbar">
+      <div class="salon-brand" id="salon-brand">
+        <div class="salon-logo-container" id="salon-logo-box">
+          <img id="topbar-logo-img" class="salon-logo-img" style="display: none;" alt="Logo" />
+          <div id="topbar-logo-icon" class="salon-logo-icon">
+            <span class="material-symbols-outlined">calendar_month</span>
+          </div>
+        </div>
+        <span class="salon-name-text" id="topbar-salon-name">Appuntamenti</span>
+      </div>
+      <button type="button" class="settings-tab-btn" id="open-settings-btn" onclick="openSettingsTab()" title="Impostazioni e Promemoria">
+        <span class="material-symbols-outlined">settings</span>
+        <span class="settings-btn-label">Impostazioni</span>
+      </button>
+    </div>
+
+    <div class="tab-container">
+      <div class="tab active" data-tab="reminders">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          fill="#4285f4"
+        >
+          <path
+            d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Zm80 240v-80h400v80H280Zm0 160v-80h280v80H280Z"
+          />
+        </svg>
+      </div>
+      <div class="tab" data-tab="clients">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          fill="#4285f4"
+        >
+          <path
+            d="M40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Zm720 0v-120q0-44-24.5-84.5T666-434q51 6 96 20.5t84 35.5q36 20 55 44.5t19 53.5v120H760ZM360-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47Zm400-160q0 66-47 113t-113 47q-11 0-28-2.5t-28-5.5q27-32 41.5-71t14.5-81q0-42-14.5-81T544-792q14-5 28-6.5t28-1.5q66 0 113 47t47 113ZM120-240h480v-32q0-11-5.5-20T580-306q-54-27-109-40.5T360-360q-56 0-111 13.5T140-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T440-640q0-33-23.5-56.5T360-720q-33 0-56.5 23.5T280-640q0 33 23.5 56.5T360-560Zm0 320Zm0-400Z"
+          />
+        </svg>
+      </div>
+    </div>
+
+    <div id="reminders-tab" class="tab-content active">
+      <div class="header">
+        <h2>Promemoria appuntamenti</h2>
+        <div class="day-selector">
+          <div class="day-option" data-day="today">Oggi</div>
+          <div class="day-option selected" data-day="tomorrow">Domani</div>
+          <div class="day-option" data-day="dayAfterTomorrow">Dopodomani</div>
+        </div>
+        <p class="update">Aggiornato: <span id="update-time">...</span></p>
+        <button class="sync-button icon-button" id="sync-button">
+          <span class="material-symbols-outlined">sync</span>
+        </button>
+      </div>
+
+      <div id="reminders-content">
+        <div class="loading">Caricamento promemoria...</div>
+      </div>
+    </div>
+
+    <div id="clients-tab" class="tab-content">
+      <div class="header">
+        <h2>Gestione clienti</h2>
+        <p>Numero totale clienti: <span id="totalClientsCount">...</span></p>
+        <p class="update">
+          Aggiornato: <span id="clients-update-time">...</span>
+        </p>
+      </div>
+
+      <div class="search-container">
+        <input
+          type="text"
+          id="client-search"
+          class="search-input"
+          placeholder="Cerca cliente per nome..."
+        />
+        <button id="search-button" class="search-button">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            viewBox="0 -960 960 960"
+            width="24px"
+            fill="#ffffff"
+          >
+            <path
+              d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <div id="clients-content">
+        <div class="loading">Caricamento clienti...</div>
+      </div>
+
+      <div class="pagination" id="clients-pagination"></div>
+    </div>
+
+    <!-- TAB 3: IMPOSTAZIONI E PROMEMORIA (Stile integrato a divisori, senza card) -->
+    <div id="settings-tab" class="tab-content">
+      <div class="settings-header">
+        <div class="settings-header-info">
+          <h2>Impostazioni e Promemoria</h2>
+          <p class="update">Configura messaggi, anticipo e brand</p>
+        </div>
+        <button type="button" class="settings-close-btn" onclick="switchToTab('reminders')" title="Torna ai promemoria">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <div class="settings-page-body">
+        <!-- 1. RICHIESTA DI CONFERMA ANTICIPATA -->
+        <div class="settings-section">
+          <div class="settings-section-header">
+            <span class="material-symbols-outlined section-icon">touch_app</span>
+            <div class="settings-section-title">Richiesta di Conferma Anticipata (1-Click)</div>
+          </div>
+
+          <div class="form-group switch-group">
+            <label for="setting-confirmation-enabled" class="switch-label">
+              <span class="switch-main-text">Invia richiesta di conferma anticipata</span>
+              <span class="switch-sub-text">Invia in automatico il link di conferma 1-clic prima dell'appuntamento</span>
+            </label>
+            <label class="toggle-switch">
+              <input type="checkbox" id="setting-confirmation-enabled" onchange="toggleConfirmationSettingsFields()" />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <div class="form-group" id="confirmation-days-group">
+            <label for="setting-confirmation-days">Quando inviare la richiesta di conferma?</label>
+            <select id="setting-confirmation-days" class="form-control">
+              <option value="3">3 giorni prima dell'appuntamento</option>
+              <option value="2">2 giorni prima dell'appuntamento</option>
+              <option value="1">1 giorno prima (il giorno prima)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="setting-template-confirmation">Testo Richiesta di Conferma (Anticipata)</label>
+            <textarea id="setting-template-confirmation" class="form-control form-textarea" rows="3" placeholder="Ciao %NOME%, ti chiediamo gentilmente di confermare il tuo appuntamento per %DATA% alle ore %ORE%..."></textarea>
+            <small class="form-help">Tag disponibili: <code>%NOME%</code>, <code>%DATA%</code>, <code>%ORE%</code>, <code>%LINK%</code></small>
+          </div>
+        </div>
+
+        <!-- 2. PROMEMORIA FINALE (IL GIORNO PRIMA) -->
+        <div class="settings-section">
+          <div class="settings-section-header">
+            <span class="material-symbols-outlined section-icon">notifications</span>
+            <div class="settings-section-title">Promemoria Finale (Cortesia Giorno Prima)</div>
+          </div>
+
+          <div class="form-group switch-group">
+            <label for="setting-final-enabled" class="switch-label">
+              <span class="switch-main-text">Invia promemoria finale il giorno prima</span>
+              <span class="switch-sub-text">Un breve messaggio di cortesia senza link prima dell'appuntamento</span>
+            </label>
+            <label class="toggle-switch">
+              <input type="checkbox" id="setting-final-enabled" onchange="toggleFinalSettingsFields()" />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <div class="form-group" id="final-only-confirmed-container">
+            <label for="setting-final-only-confirmed">A chi inviare il promemoria finale?</label>
+            <select id="setting-final-only-confirmed" class="form-control">
+              <option value="false">A tutti i clienti in agenda per domani</option>
+              <option value="true">Solo a chi ha già confermato ([OK])</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="setting-template-final">Testo Promemoria di Cortesia (Senza link)</label>
+            <textarea id="setting-template-final" class="form-control form-textarea" rows="2" placeholder="Ciao %NOME%, ti ricordiamo il tuo appuntamento fissato per domani alle ore %ORE%. Ti aspettiamo!"></textarea>
+            <small class="form-help">Tag disponibili: <code>%NOME%</code>, <code>%DATA%</code>, <code>%ORE%</code></small>
+          </div>
+        </div>
+
+        <!-- 3. DATI ATTIVITÀ / STUDIO -->
+        <div class="settings-section">
+          <div class="settings-section-header">
+            <span class="material-symbols-outlined section-icon">storefront</span>
+            <div class="settings-section-title">Dati Attività / Studio</div>
+          </div>
+
+          <div class="form-group">
+            <label for="setting-salon-name">Nome Attività / Studio</label>
+            <input type="text" id="setting-salon-name" class="form-control" placeholder="Es. Studio / Centro / Azienda" />
+          </div>
+
+          <div class="form-group">
+            <label for="setting-salon-logo">URL Immagine Logo (opzionale)</label>
+            <input type="url" id="setting-salon-logo" class="form-control" placeholder="https://.../logo.png" />
+            <small class="form-help">Inserisci l'indirizzo web di un'immagine trasparente o quadrata.</small>
+          </div>
+
+          <div class="form-group">
+            <label for="setting-waha-session">Sessione WAHA (WhatsApp)</label>
+            <input type="text" id="setting-waha-session" class="form-control" placeholder="default" />
+            <small class="form-help">Nome della sessione WAHA da cui inviare i messaggi (predefinito: <code>default</code>).</small>
+          </div>
+        </div>
+
+        <div class="settings-footer-actions">
+          <div id="settings-status-msg" class="settings-status-msg"></div>
+          <button type="button" class="btn-save-settings" id="btn-save-settings" onclick="saveSettingsFromModal()">
+            <span id="txt-save-settings">Salva Impostazioni</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="signature"></div>
+
+  <div id="history-modal" class="modal-overlay">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeHistoryPopup()">&times;</span>
+      <h3 id="modal-title">Cronologia appuntamenti</h3>
+      <div id="modal-history-content" class="modal-body"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast-notification"></div>
+
+  <?!= include('JavaScript'); ?>
+</body>
